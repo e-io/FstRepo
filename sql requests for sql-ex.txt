@@ -1,3 +1,5 @@
+https://github.com/e-io/FstRepo/blob/master/sql%20requests%20for%20sql-ex.txt
+
 -- Exercises from sql-ex.ru
 
 /*
@@ -208,3 +210,13 @@ FROM product
 JOIN laptop
 ON product.model = laptop.model
 GROUP BY maker
+
+-- 20
+-- Найдите производителей, выпускающих по меньшей мере три различных модели ПК. Вывести: Maker, число моделей ПК.
+
+SELECT product.maker as maker, COUNT(model)
+FROM product
+WHERE TYPE = 'PC'
+GROUP BY maker
+HAVING COUNT(model) >= 3
+

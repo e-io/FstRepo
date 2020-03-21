@@ -285,3 +285,61 @@ WHERE price >= ALL (
 	SELECT price
 	FROM models)
 */
+
+
+
+
+WITH excelent_students AS (
+SELECT fio
+FROM students
+WHERE mark = 5
+GROUP BY students
+HAVING COUNT(mark) > 10 )
+
+WITH bad_students, AS (
+SELECT fio, mark COUNT 
+FROM students
+WHERE mark = 2
+GROUP BY students)
+
+
+SELECT excelent_students.fio, COUNT()
+FROM excelent_students
+LEFT JOIN bad_students
+ON excelent_students.fio = bad_students.fio
+
+-- 25
+-- Найдите производителей принтеров, которые производят ПК с наименьшим объемом RAM и с самым быстрым процессором среди всех ПК, имеющих наименьший объем RAM. -- Вывести: Maker 
+
+/*
+WITH lowest_ram AS (
+	SELECT maker AS maker, speed AS speed
+	FROM pc
+	WHERE ram = MIN(ram)
+	GROUP BY maker)
+SELECT maker
+FROM lowest_ram
+ GROUP BY maker
+HAVING speed >= ALL (
+	SELECT speed
+	FROM lowest_ram) 
+*/
+
+-- 26
+-- Найдите среднюю цену ПК и ПК-блокнотов, выпущенных производителем A (латинская буква). Вывести: одна общая средняя цена. 
+
+WITH pclt AS (
+	SELECT code, model, speed, ram, hd, price
+	FROM PC
+
+	UNION
+
+	SELECT code, model, speed, ram, hd, price
+	FROM laptop)
+SELECT AVG(price) as AVG_price
+FROM pclt
+WHERE model IN (
+	 SELECT model
+	FROM product
+	WHERE maker = 'A')
+

@@ -1,3 +1,5 @@
+//this is game "Guess number"
+
 package main
 
 import(
